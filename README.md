@@ -1,16 +1,68 @@
-# React + Vite
+# HisabKitab — Smart Expense & Budget Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+**HisabKitab** is a React-based web application designed to help users track daily expenses, manage budgets, and understand spending habits through simple financial insights.  
+The system focuses on usability, clarity, and practical financial management while demonstrating key React concepts such as state management, routing, and component-based design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Add, edit, and delete expenses  
+- Category-based expense filtering  
+- Search expenses by title or category  
+- Monthly budget management  
+- Spending summary dashboard  
+- Weekly spending report  
+- Dark mode toggle  
+- Data persistence using Local Storage  
+- Multi-page navigation using React Router  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies Used
+
+- React.js  
+- JavaScript (ES6)  
+- HTML5  
+- CSS / Tailwind CSS  
+- React Router DOM  
+- Local Storage  
+
+---
+
+## React Concepts Demonstrated
+
+- Components and Props  
+- useState  
+- useEffect  
+- Controlled Components  
+- Conditional Rendering  
+- Routing  
+- State Management  
+- Dynamic Rendering  
+
+---
+
+## Application Pages
+
+- Home  
+- Dashboard  
+- Reports  
+- About  
+
+---
+
+## Project Goal
+
+The goal of **HisabKitab** is to provide a simple and efficient expense tracking system that helps users monitor spending, stay within budget, and gain better financial awareness using modern frontend technologies.
+
+---
+
+## Future Improvements
+
+- Expense charts and analytics  
+- User authentication  
+- Cloud database integration  
+- Mobile responsiveness enhancements  
