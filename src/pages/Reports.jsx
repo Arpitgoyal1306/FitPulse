@@ -21,22 +21,23 @@ export default function Reports() {
   }, []);
 
   return (
-    <div>
-      <h1>Reports</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+        Financial Reports
+      </h1>
 
-      <WeeklyReport expenses={expenses} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <WeeklyReport expenses={expenses} />
+        <MonthlyReport expenses={expenses} />
+        <HighestExpense expenses={expenses} />
+        <AverageExpense expenses={expenses} />
+        <CategorySummary expenses={expenses} />
+        <CategoryCount expenses={expenses} />
+      </div>
 
-      <MonthlyReport expenses={expenses} />
-
-      <CategorySummary expenses={expenses} />
-
-      <CategoryCount expenses={expenses} />
-
-      <HighestExpense expenses={expenses} />
-
-      <AverageExpense expenses={expenses} />
-
-      <ExportButton expenses={expenses} />
+      <div className="mt-6">
+        <ExportButton expenses={expenses} />
+      </div>
     </div>
   );
 }

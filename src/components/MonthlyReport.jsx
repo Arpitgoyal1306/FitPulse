@@ -8,7 +8,7 @@ function MonthlyReport({ expenses }) {
           margin: "10px",
         }}
       >
-        <h2>Component Title</h2>
+        <h2>Monthly Report</h2>
         <p>No data available yet.</p>
       </div>
     );

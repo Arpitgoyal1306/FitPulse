@@ -5,72 +5,62 @@ function Budget({ budget, setBudget, totalSpent }) {
 
   const warningThreshold = numericBudget * 0.2;
 
-  // Calculate percentage used
   const percentUsed =
     numericBudget > 0
       ? Math.min(Math.round((totalSpent / numericBudget) * 100), 100)
       : 0;
 
-  // Choose color
-  let barColor = "green";
+  let barColor = "bg-green-500";
 
   if (percentUsed >= 80) {
-    barColor = "orange";
+    barColor = "bg-orange-500";
   }
 
   if (percentUsed >= 100) {
-    barColor = "red";
+    barColor = "bg-red-500";
   }
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h2>Budget</h2>
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-gray-800">Budget</h2>
 
       <input
         type="number"
         placeholder="Enter Monthly Budget"
-        value={budget}
-        onChange={(e) => setBudget(e.target.value)}
+        value={budget ?? ""}
+        onChange={(e) => {
+          const value = e.target.value;
+
+          if (value === "") {
+            setBudget("");
+          } else {
+            setBudget(Number(value));
+          }
+        }}
+        className="w-full p-2 border rounded-lg"
       />
 
-      <p>Total Spent: ₹ {totalSpent}</p>
+      <p className="text-gray-700">Total Spent: ₹ {totalSpent}</p>
 
-      <p>Remaining Budget: ₹ {remaining}</p>
+      <p className="text-gray-700">Remaining Budget: ₹ {remaining}</p>
 
-      {/* Progress Bar */}
-
-      <div
-        style={{
-          width: "100%",
-          backgroundColor: "#ccc",
-          height: "20px",
-          marginTop: "10px",
-        }}
-      >
+      <div className="w-full bg-gray-200 h-5 rounded-lg overflow-hidden">
         <div
-          style={{
-            width: percentUsed + "%",
-            height: "100%",
-            backgroundColor: barColor,
-            transition: "0.3s",
-          }}
+          className={`h-full transition-all duration-300 ${barColor}`}
+          style={{ width: percentUsed + "%" }}
         />
       </div>
 
-      <p>{percentUsed}% used</p>
+      <p className="text-sm text-gray-600">{percentUsed}% used</p>
 
-      {/* Warnings */}
-
-      {remaining < 0 && <p style={{ color: "red" }}>⚠ Budget Exceeded</p>}
+      {remaining < 0 && (
+        <p className="text-red-600 font-medium">⚠ Budget Exceeded</p>
+      )}
 
       {remaining > 0 && remaining <= warningThreshold && (
-        <p style={{ color: "orange" }}>⚠ Budget is almost finished</p>
+        <p className="text-orange-600 font-medium">
+          ⚠ Budget is almost finished
+        </p>
       )}
     </div>
   );

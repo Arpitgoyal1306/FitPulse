@@ -40,60 +40,84 @@ function ExpenseItem({ exp, expenses, setExpenses }) {
 
   if (isEditing) {
     return (
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "10px",
-          margin: "10px",
-        }}
-      >
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <div className="border rounded-lg p-4 bg-gray-50 space-y-3">
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          className="w-full p-2 border rounded"
         />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="Food">Food</option>
-          <option value="Travel">Travel</option>
-          <option value="Bills">Bills</option>
-          <option value="Shopping">Shopping</option>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option>Food</option>
+          <option>Travel</option>
+          <option>Bills</option>
+          <option>Shopping</option>
         </select>
 
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          className="w-full p-2 border rounded"
         />
 
-        <button onClick={handleSave}>Save</button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleSave}
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Save
+          </button>
 
-        <button onClick={() => setIsEditing(false)}>Cancel</button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className="bg-gray-300 px-4 py-2 rounded"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h3>{exp.title}</h3>
+    <div className="border rounded-lg p-4 bg-white shadow-sm flex justify-between items-center">
+      <div>
+        <h3 className="font-semibold text-lg">{exp.title}</h3>
 
-      <p>Amount: ₹{exp.amount}</p>
+        <p className="text-gray-600">₹{exp.amount}</p>
 
-      <p>Category: {exp.category}</p>
+        <p className="text-sm text-gray-500">
+          {exp.category} • {exp.date}
+        </p>
+      </div>
 
-      <p>Date: {exp.date}</p>
+      <div className="flex gap-2">
+        <button
+          onClick={() => setIsEditing(true)}
+          className="bg-yellow-500 text-white px-3 py-1 rounded"
+        >
+          Edit
+        </button>
 
-      <button onClick={() => setIsEditing(true)}>Edit</button>
-
-      <button onClick={handleDelete}>Delete</button>
+        <button
+          onClick={handleDelete}
+          className="bg-red-600 text-white px-3 py-1 rounded"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

@@ -10,33 +10,27 @@ function DarkModeToggle() {
 
     if (savedTheme === "dark") {
       setDarkMode(true);
-
-      document.body.style.backgroundColor = "#111";
-
-      document.body.style.color = "white";
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
-  // Apply theme when toggled
+  // Apply theme
 
   useEffect(() => {
     if (darkMode) {
-      document.body.style.backgroundColor = "#111";
-
-      document.body.style.color = "white";
-
+      document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      document.body.style.backgroundColor = "white";
-
-      document.body.style.color = "black";
-
+      document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
 
   return (
-    <button onClick={() => setDarkMode(!darkMode)}>
+    <button
+      onClick={() => setDarkMode(!darkMode)}
+      className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700"
+    >
       {darkMode ? "Light Mode" : "Dark Mode"}
     </button>
   );

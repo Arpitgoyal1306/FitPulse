@@ -14,12 +14,12 @@ function ExpenseForm({ expenses, setExpenses }) {
 
     // VALIDATION
     if (!title || !amount || !category || !date) {
-      alert("Please fill all fields");
+      alert("Please fill out all fields.");
       return;
     }
 
     if (Number(amount) <= 0) {
-      alert("Amount must be greater than 0");
+      alert("Amount must be greater than zero.");
       return;
     }
 
@@ -33,7 +33,7 @@ function ExpenseForm({ expenses, setExpenses }) {
 
     setExpenses([...expenses, newExpense]);
 
-    // RESET FORM
+    // Clear form
     setTitle("");
     setAmount("");
     setCategory("");
@@ -41,50 +41,55 @@ function ExpenseForm({ expenses, setExpenses }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Expense</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 my-5 border rounded-lg bg-white dark:bg-gray-800 shadow-md space-y-4"
+    >
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+        Add New Expense
+      </h2>
 
       <input
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
       />
-
-      <br />
 
       <input
         type="number"
         placeholder="Amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
       />
 
-      <br />
-
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
+      >
         <option value="">Select Category</option>
-
         <option value="Food">Food</option>
-
         <option value="Travel">Travel</option>
-
         <option value="Bills">Bills</option>
-
         <option value="Shopping">Shopping</option>
       </select>
-
-      <br />
 
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
+        className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
       />
 
-      <br />
-
-      <button type="submit">Add Expense</button>
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+      >
+        Add Expense
+      </button>
     </form>
   );
 }

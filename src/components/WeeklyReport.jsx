@@ -1,15 +1,13 @@
 function WeeklyReport({ expenses }) {
   if (!expenses || expenses.length === 0) {
     return (
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "10px",
-          margin: "10px",
-        }}
-      >
-        <h2>Component Title</h2>
-        <p>No data available yet.</p>
+      <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          Weekly Report
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          No data available yet.
+        </p>
       </div>
     );
   }
@@ -29,16 +27,28 @@ function WeeklyReport({ expenses }) {
   const weeklyTotal = weeklyExpenses.reduce((sum, exp) => sum + exp.amount, 0);
 
   return (
-    <div>
-      <h2>Weekly Report</h2>
+    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+        Weekly Report
+      </h2>
 
-      <p>Total spent in last 7 days:</p>
+      <div>
+        <p className="text-gray-500 dark:text-gray-400">
+          Total spent in last 7 days:
+        </p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          ₹ {weeklyTotal}
+        </h3>
+      </div>
 
-      <h3>₹ {weeklyTotal}</h3>
-
-      <p>Number of transactions:</p>
-
-      <h3>{weeklyExpenses.length}</h3>
+      <div className="mt-4">
+        <p className="text-gray-500 dark:text-gray-400">
+          Number of transactions:
+        </p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          {weeklyExpenses.length}
+        </h3>
+      </div>
     </div>
   );
 }

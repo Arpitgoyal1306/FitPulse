@@ -1,16 +1,9 @@
 function Footer() {
   return (
-    <footer
-      style={{
-        marginTop: "40px",
-        padding: "15px",
-        borderTop: "1px solid gray",
-        textAlign: "center",
-      }}
-    >
+    <footer className="mt-10 py-4 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
       <p>HisabKitab © 2026</p>
 
-      <p>Built using React</p>
+      <p className="mt-1">Built using React & Tailwind CSS</p>
     </footer>
   );
 }

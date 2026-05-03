@@ -1,15 +1,11 @@
 function AverageExpense({ expenses }) {
   if (!expenses || expenses.length === 0) {
     return (
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "10px",
-          margin: "10px",
-        }}
-      >
-        <h2>Average Expense</h2>
-        <p>No expenses yet.</p>
+      <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          Average Expense
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">No expenses yet.</p>
       </div>
     );
   }
@@ -21,18 +17,18 @@ function AverageExpense({ expenses }) {
   const average = Math.round(total / expenses.length);
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h2>Average Expense</h2>
+    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+        Average Expense
+      </h2>
 
-      <p>₹ {average} per transaction</p>
+      <p className="text-lg text-gray-900 dark:text-gray-200">
+        ₹ {average} per transaction
+      </p>
 
-      <p>Based on {expenses.length} expenses</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        Based on {expenses.length} expenses
+      </p>
     </div>
   );
 }

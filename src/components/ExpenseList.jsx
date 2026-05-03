@@ -3,22 +3,17 @@ import ExpenseItem from "./ExpenseItem";
 function ExpenseList({ expenses, setExpenses }) {
   if (expenses.length === 0) {
     return (
-      <div
-        style={{
-          border: "1px dashed gray",
-          padding: "15px",
-          margin: "10px",
-          textAlign: "center",
-        }}
-      >
-        <p>No expenses yet.</p>
-        <p>Add your first expense to get started.</p>
+      <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-6 m-2 text-center rounded-lg bg-gray-50 dark:bg-gray-800/50">
+        <p className="text-gray-500 dark:text-gray-400">No expenses yet.</p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
+          Add your first expense to get started.
+        </p>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       {expenses.map((exp) => (
         <ExpenseItem
           key={exp.id}

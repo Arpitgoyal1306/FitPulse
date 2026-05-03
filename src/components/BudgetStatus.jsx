@@ -8,21 +8,17 @@ function BudgetStatus({ budget, totalSpent }) {
   }
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h2>Budget Status</h2>
+    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+        Budget Status
+      </h2>
 
       {remaining >= 0 ? (
-        <p style={{ color: "green" }}>
+        <p className="text-green-600 dark:text-green-400">
           You are within your budget. Remaining: ₹ {remaining}
         </p>
       ) : (
-        <p style={{ color: "red" }}>
+        <p className="text-red-600 dark:text-red-400">
           You have exceeded your budget. Overspent: ₹ {Math.abs(remaining)}
         </p>
       )}

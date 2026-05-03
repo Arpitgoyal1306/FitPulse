@@ -1,15 +1,13 @@
 function CategoryCount({ expenses }) {
   if (!expenses || expenses.length === 0) {
     return (
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "10px",
-          margin: "10px",
-        }}
-      >
-        <h2>Component Title</h2>
-        <p>No data available yet.</p>
+      <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          Expense Count by Category
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          No data available yet.
+        </p>
       </div>
     );
   }
@@ -25,23 +23,22 @@ function CategoryCount({ expenses }) {
   });
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h2>Expense Count by Category</h2>
+    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+        Expense Count by Category
+      </h2>
 
       {Object.keys(categoryCounts).length === 0 ? (
-        <p>No expenses yet.</p>
+        <p className="text-gray-600 dark:text-gray-400">No expenses yet.</p>
       ) : (
-        Object.entries(categoryCounts).map(([category, count]) => (
-          <p key={category}>
-            {category} — {count} expenses
-          </p>
-        ))
+        <ul className="space-y-1 text-gray-700 dark:text-gray-300">
+          {Object.entries(categoryCounts).map(([category, count]) => (
+            <li key={category} className="flex justify-between">
+              <span>{category}</span>
+              <span className="font-medium">{count} expenses</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

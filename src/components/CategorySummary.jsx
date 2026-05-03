@@ -1,15 +1,13 @@
 function CategorySummary({ expenses }) {
   if (!expenses || expenses.length === 0) {
     return (
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "10px",
-          margin: "10px",
-        }}
-      >
-        <h2>Component Title</h2>
-        <p>No data available yet.</p>
+      <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          Category-wise Spending
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          No data available yet.
+        </p>
       </div>
     );
   }
@@ -26,23 +24,22 @@ function CategorySummary({ expenses }) {
   });
 
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <h2>Category-wise Spending</h2>
+    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+        Category-wise Spending
+      </h2>
 
       {Object.keys(categoryTotals).length === 0 ? (
-        <p>No expenses yet.</p>
+        <p className="text-gray-600 dark:text-gray-400">No expenses yet.</p>
       ) : (
-        Object.entries(categoryTotals).map(([category, total]) => (
-          <p key={category}>
-            {category}: ₹ {total}
-          </p>
-        ))
+        <ul className="space-y-1 text-gray-700 dark:text-gray-300">
+          {Object.entries(categoryTotals).map(([category, total]) => (
+            <li key={category} className="flex justify-between">
+              <span>{category}</span>
+              <span className="font-medium">₹ {total}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
