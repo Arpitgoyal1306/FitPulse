@@ -22,7 +22,14 @@ function Budget({ budget, setBudget, totalSpent }) {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">Budget</h2>
+      <div>
+        <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+          Budget
+        </h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          Set a monthly limit and track progress.
+        </p>
+      </div>
 
       <input
         type="number"
@@ -37,30 +44,31 @@ function Budget({ budget, setBudget, totalSpent }) {
             setBudget(Number(value));
           }
         }}
-        className="w-full p-2 border rounded-lg"
+        className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
       />
 
-      <p className="text-gray-700">Total Spent: ₹ {totalSpent}</p>
+      <div className="flex flex-col gap-1 text-sm text-slate-600 dark:text-slate-300">
+        <span>Total Spent: ₹ {totalSpent}</span>
+        <span>Remaining Budget: ₹ {remaining}</span>
+      </div>
 
-      <p className="text-gray-700">Remaining Budget: ₹ {remaining}</p>
-
-      <div className="w-full bg-gray-200 h-5 rounded-lg overflow-hidden">
+      <div className="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
         <div
           className={`h-full transition-all duration-300 ${barColor}`}
           style={{ width: percentUsed + "%" }}
         />
       </div>
 
-      <p className="text-sm text-gray-600">{percentUsed}% used</p>
+      <p className="text-sm text-slate-500 dark:text-slate-400">
+        {percentUsed}% used
+      </p>
 
       {remaining < 0 && (
-        <p className="text-red-600 font-medium">⚠ Budget Exceeded</p>
+        <p className="text-red-600 font-medium">Budget exceeded</p>
       )}
 
       {remaining > 0 && remaining <= warningThreshold && (
-        <p className="text-orange-600 font-medium">
-          ⚠ Budget is almost finished
-        </p>
+        <p className="text-orange-600 font-medium">Budget is almost finished</p>
       )}
     </div>
   );

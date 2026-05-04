@@ -8,8 +8,8 @@ function BudgetStatus({ budget, totalSpent }) {
   }
 
   return (
-    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
-      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
         Budget Status
       </h2>
 

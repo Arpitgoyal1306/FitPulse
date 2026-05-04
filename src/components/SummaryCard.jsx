@@ -13,28 +13,40 @@ function SummaryCard({ totalSpent, transactionCount }) {
     }).format(value);
 
   return (
-    <div className="border border-gray-300 dark:border-gray-700 p-5 m-2 rounded-lg bg-gray-900 text-white shadow-lg">
-      <h2 className="text-xl font-semibold mb-4">Summary</h2>
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+        Summary
+      </h2>
 
       {/* Total Expenses */}
       <div>
-        <p className="text-gray-400">Total Expenses</p>
+        <p className="text-slate-500 dark:text-slate-400">Total Expenses</p>
 
-        <h3 className="text-3xl font-bold">{formatCurrency(safeTotal)}</h3>
+        <h3 className="text-3xl font-semibold text-slate-900 dark:text-white">
+          {formatCurrency(safeTotal)}
+        </h3>
       </div>
 
       {/* Transactions */}
       <div className="mt-5">
-        <p className="text-gray-400">Number of Transactions</p>
+        <p className="text-slate-500 dark:text-slate-400">
+          Number of Transactions
+        </p>
 
-        <h3 className="text-2xl font-bold">{safeCount}</h3>
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          {safeCount}
+        </h3>
       </div>
 
       {/* Average */}
       <div className="mt-5">
-        <p className="text-gray-400">Average per Transaction</p>
+        <p className="text-slate-500 dark:text-slate-400">
+          Average per Transaction
+        </p>
 
-        <h3 className="text-xl font-semibold">{formatCurrency(average)}</h3>
+        <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
+          {formatCurrency(average)}
+        </h3>
       </div>
     </div>
   );

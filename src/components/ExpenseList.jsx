@@ -1,12 +1,17 @@
 import ExpenseItem from "./ExpenseItem";
 
-function ExpenseList({ expenses, setExpenses }) {
+// expenses = filtered list to display
+// setExpenses = context setter
+// allExpenses = full unfiltered list (needed for edit/delete to work correctly when filtered)
+function ExpenseList({ expenses, setExpenses, allExpenses }) {
   if (expenses.length === 0) {
     return (
-      <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-6 m-2 text-center rounded-lg bg-gray-50 dark:bg-gray-800/50">
-        <p className="text-gray-500 dark:text-gray-400">No expenses yet.</p>
-        <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
-          Add your first expense to get started.
+      <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-10 text-center">
+        <p className="text-slate-600 dark:text-slate-300 text-lg font-medium">
+          No expenses found.
+        </p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+          Try adjusting your search or add a new expense.
         </p>
       </div>
     );
@@ -18,7 +23,8 @@ function ExpenseList({ expenses, setExpenses }) {
         <ExpenseItem
           key={exp.id}
           exp={exp}
-          expenses={expenses}
+          // Pass full list for edit/delete so filtered view doesn't cause data loss
+          expenses={allExpenses || expenses}
           setExpenses={setExpenses}
         />
       ))}

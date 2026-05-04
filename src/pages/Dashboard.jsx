@@ -1,200 +1,124 @@
-import { useState, useEffect } from "react";
+import { useContext, useState } from "react";
+import { ExpenseContext } from "../context/ExpenseContext";
 
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
-import Filter from "../components/Filter";
-import SearchBar from "../components/SearchBar";
-import Budget from "../components/Budget";
-import Sort from "../components/Sort";
-import ResetButton from "../components/ResetButton";
+import SummaryCard from "../components/SummaryCard";
 import RecentTransactions from "../components/RecentTransactions";
+import ResetButton from "../components/ResetButton";
+import Budget from "../components/Budget";
+import BudgetStatus from "../components/BudgetStatus";
+import SearchBar from "../components/SearchBar";
+import Filter from "../components/Filter";
+import Sort from "../components/Sort";
 import CategoryPreview from "../components/CategoryPreview";
 
 function Dashboard() {
-  // STATES
+  // All data comes from shared context - this fixes the data disappearing bug
+  const { expenses, setExpenses, budget, setBudget } =
+    useContext(ExpenseContext);
 
-  const [expenses, setExpenses] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  // Search, filter, sort are local UI state - fine to keep here
   const [searchTerm, setSearchTerm] = useState("");
-  const [budget, setBudget] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("date");
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const totalSpent = expenses.reduce(
+    (sum, exp) => sum + Number(exp.amount || 0),
+    0,
+  );
 
-  // LOAD DATA
-
-  useEffect(() => {
-    try {
-      setLoading(true);
-
-      const savedExpenses = localStorage.getItem("expenses");
-
-      const savedBudget = localStorage.getItem("budget");
-
-      if (savedExpenses) {
-        setExpenses(JSON.parse(savedExpenses));
-      }
-
-      if (savedBudget) {
-        setBudget(savedBudget);
-      }
-    } catch (err) {
-      setError("Failed to load data. Please refresh.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // SAVE DATA
-
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
-
-  useEffect(() => {
-    localStorage.setItem("budget", budget);
-  }, [budget]);
-
-  // FILTER + SEARCH + SORT
-
+  // Apply search, filter, sort to expenses for the list
   const filteredExpenses = expenses
-    .filter((exp) =>
-      selectedCategory === "All" ? true : exp.category === selectedCategory,
-    )
-    .filter((exp) =>
-      (exp.title || "").toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+    .filter((exp) => {
+      const matchesSearch = exp.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "All" || exp.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
     .sort((a, b) => {
-      if (sortOption === "amount") return b.amount - a.amount;
-
+      if (sortOption === "amount") return Number(b.amount) - Number(a.amount);
       if (sortOption === "title") return a.title.localeCompare(b.title);
-
-      if (sortOption === "date") return new Date(b.date) - new Date(a.date);
-
-      return 0;
+      // default: date newest first
+      return new Date(b.date) - new Date(a.date);
     });
-
-  const totalSpent = expenses.reduce((sum, exp) => sum + Number(exp.amount), 0);
-
-  const transactionCount = expenses.length;
-
-  const remaining = (Number(budget) || 0) - totalSpent;
-
-  /*
-  IMPORTANT: These two checks must be
-  BEFORE the main return.
-  */
-
-  if (loading) {
-    return <div className="p-10 text-center">Loading dashboard...</div>;
-  }
-
-  if (error) {
-    return <div className="p-10 text-center text-red-600">{error}</div>;
-  }
 
   return (
     <div className="space-y-8">
-      {/* HEADER */}
-
-      <div>
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+        <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">
           Dashboard
         </h1>
-
-        <p className="text-gray-500 dark:text-gray-400 mt-2">
-          Track your expenses and monitor your budget.
+        <p className="text-slate-600 dark:text-slate-400 mt-1">
+          Track and manage your expenses in one place.
         </p>
       </div>
 
-      {/* KPI CARDS */}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <p className="text-gray-500 text-sm">Total Spent</p>
-
-          <h2 className="text-2xl font-bold">₹ {totalSpent}</h2>
+      {/* Summary + Budget side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+          <SummaryCard
+            totalSpent={totalSpent}
+            transactionCount={expenses.length}
+          />
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <p className="text-gray-500 text-sm">Transactions</p>
-
-          <h2 className="text-2xl font-bold">{transactionCount}</h2>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+          <Budget
+            budget={budget}
+            setBudget={setBudget}
+            totalSpent={totalSpent}
+          />
         </div>
+      </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <p className="text-gray-500 text-sm">Budget</p>
+      {/* Budget Status - only shows when budget is set */}
+      <BudgetStatus budget={budget} totalSpent={totalSpent} />
 
-          <h2 className="text-2xl font-bold">₹ {budget || 0}</h2>
+      {/* Add Expense Form + Recent Transactions side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ExpenseForm expenses={expenses} setExpenses={setExpenses} />
+        <RecentTransactions expenses={expenses} />
+      </div>
+
+      {/* Category Preview */}
+      <CategoryPreview expenses={expenses} />
+
+      {/* Search + Filter + Sort in one row */}
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+          Search, Filter, and Sort
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <Filter
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+          <Sort sortOption={sortOption} setSortOption={setSortOption} />
         </div>
+      </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <p className="text-gray-500 text-sm">Remaining</p>
-
-          <h2
-            className={`text-2xl font-bold ${
-              remaining < 0 ? "text-red-600" : ""
-            }`}
-          >
-            ₹ {remaining}
+      {/* Expense List */}
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+            All Expenses
           </h2>
+          <span className="text-sm text-slate-500 dark:text-slate-400">
+            {filteredExpenses.length} items
+          </span>
         </div>
+        <ExpenseList
+          expenses={filteredExpenses}
+          setExpenses={setExpenses}
+          allExpenses={expenses}
+        />
       </div>
 
-      {/* MAIN GRID */}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT */}
-
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <Budget
-              budget={budget}
-              setBudget={setBudget}
-              totalSpent={totalSpent}
-            />
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-            <Filter
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
-
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-            <Sort sortOption={sortOption} setSortOption={setSortOption} />
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <ExpenseForm expenses={expenses} setExpenses={setExpenses} />
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <ExpenseList
-              expenses={filteredExpenses}
-              setExpenses={setExpenses}
-            />
-          </div>
-        </div>
-
-        {/* RIGHT */}
-
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <RecentTransactions expenses={expenses} />
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <CategoryPreview expenses={expenses} />
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-            <ResetButton setExpenses={setExpenses} setBudget={setBudget} />
-          </div>
-        </div>
-      </div>
+      {/* Reset */}
+      <ResetButton setExpenses={setExpenses} setBudget={setBudget} />
     </div>
   );
 }

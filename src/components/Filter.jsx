@@ -1,9 +1,9 @@
 function Filter({ selectedCategory, setSelectedCategory }) {
   return (
-    <div className="flex-grow">
+    <div>
       <label
         htmlFor="category-filter"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+        className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1"
       >
         Filter by Category
       </label>
@@ -11,7 +11,7 @@ function Filter({ selectedCategory, setSelectedCategory }) {
         id="category-filter"
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
-        className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+        className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
       >
         <option value="All">All</option>
         <option value="Food">Food</option>

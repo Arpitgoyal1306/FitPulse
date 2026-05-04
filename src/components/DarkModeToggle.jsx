@@ -29,7 +29,7 @@ function DarkModeToggle() {
   return (
     <button
       onClick={() => setDarkMode(!darkMode)}
-      className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700"
+      className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-100 text-xs font-medium hover:bg-slate-700 transition dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white"
     >
       {darkMode ? "Light Mode" : "Dark Mode"}
     </button>

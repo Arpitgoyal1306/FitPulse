@@ -1,11 +1,11 @@
 function MonthlyReport({ expenses }) {
   if (!expenses || expenses.length === 0) {
     return (
-      <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
           Monthly Report
         </h2>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-slate-600 dark:text-slate-400">
           No data available yet.
         </p>
       </div>
@@ -56,57 +56,57 @@ function MonthlyReport({ expenses }) {
     transactionCount > 0 ? Math.round(monthlyTotal / transactionCount) : 0;
 
   return (
-    <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
-      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6">
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
         Monthly Report
       </h2>
 
       <div>
-        <p className="text-gray-500 dark:text-gray-400">
-          Total spent this month:
+        <p className="text-slate-500 dark:text-slate-400">
+          Total spent this month
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           ₹ {monthlyTotal}
         </h3>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-500 dark:text-gray-400">
-          Number of transactions:
+        <p className="text-slate-500 dark:text-slate-400">
+          Number of transactions
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           {transactionCount}
         </h3>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-500 dark:text-gray-400">
-          Average spending per day:
+        <p className="text-slate-500 dark:text-slate-400">
+          Average spending per day
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           ₹ {averagePerDay}
         </h3>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-500 dark:text-gray-400">
-          Average per transaction:
+        <p className="text-slate-500 dark:text-slate-400">
+          Average per transaction
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           ₹ {averagePerTransaction}
         </h3>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-500 dark:text-gray-400">
-          Remaining days in month:
+        <p className="text-slate-500 dark:text-slate-400">
+          Remaining days in month
         </p>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
           {remainingDays} days
         </h3>
       </div>
