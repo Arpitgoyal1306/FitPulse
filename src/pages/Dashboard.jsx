@@ -19,18 +19,30 @@ function Dashboard() {
   const [budget, setBudget] = useState("");
   const [sortOption, setSortOption] = useState("date");
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // LOAD DATA
 
   useEffect(() => {
-    const savedExpenses = localStorage.getItem("expenses");
-    const savedBudget = localStorage.getItem("budget");
+    try {
+      setLoading(true);
 
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses));
-    }
+      const savedExpenses = localStorage.getItem("expenses");
 
-    if (savedBudget) {
-      setBudget(savedBudget);
+      const savedBudget = localStorage.getItem("budget");
+
+      if (savedExpenses) {
+        setExpenses(JSON.parse(savedExpenses));
+      }
+
+      if (savedBudget) {
+        setBudget(savedBudget);
+      }
+    } catch (err) {
+      setError("Failed to load data. Please refresh.");
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -54,92 +66,89 @@ function Dashboard() {
       (exp.title || "").toLowerCase().includes(searchTerm.toLowerCase()),
     )
     .sort((a, b) => {
-      if (sortOption === "amount") {
-        return b.amount - a.amount;
-      }
+      if (sortOption === "amount") return b.amount - a.amount;
 
-      if (sortOption === "title") {
-        return a.title.localeCompare(b.title);
-      }
+      if (sortOption === "title") return a.title.localeCompare(b.title);
 
-      if (sortOption === "date") {
-        return new Date(b.date) - new Date(a.date);
-      }
+      if (sortOption === "date") return new Date(b.date) - new Date(a.date);
 
       return 0;
     });
 
-  const totalSpent = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+  const totalSpent = expenses.reduce((sum, exp) => sum + Number(exp.amount), 0);
 
   const transactionCount = expenses.length;
 
   const remaining = (Number(budget) || 0) - totalSpent;
 
+  /*
+  IMPORTANT: These two checks must be
+  BEFORE the main return.
+  */
+
+  if (loading) {
+    return <div className="p-10 text-center">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="p-10 text-center text-red-600">{error}</div>;
+  }
+
   return (
     <div className="space-y-8">
-      {/* PAGE HEADER */}
+      {/* HEADER */}
 
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+          Dashboard
+        </h1>
 
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
           Track your expenses and monitor your budget.
         </p>
       </div>
 
-      {/* SUMMARY CARDS */}
+      {/* KPI CARDS */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Spent */}
-
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <p className="text-gray-500 text-sm">Total Spent</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mt-2">
-            ₹ {totalSpent}
-          </h2>
+          <h2 className="text-2xl font-bold">₹ {totalSpent}</h2>
         </div>
 
-        {/* Transactions */}
-
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <p className="text-gray-500 text-sm">Transactions</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mt-2">
-            {transactionCount}
-          </h2>
+          <h2 className="text-2xl font-bold">{transactionCount}</h2>
         </div>
 
-        {/* Budget */}
-
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <p className="text-gray-500 text-sm">Budget</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mt-2">
-            ₹ {budget || 0}
-          </h2>
+          <h2 className="text-2xl font-bold">₹ {budget || 0}</h2>
         </div>
 
-        {/* Remaining */}
-
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <p className="text-gray-500 text-sm">Remaining</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mt-2">
+          <h2
+            className={`text-2xl font-bold ${
+              remaining < 0 ? "text-red-600" : ""
+            }`}
+          >
             ₹ {remaining}
           </h2>
         </div>
       </div>
 
-      {/* MAIN CONTENT GRID */}
+      {/* MAIN GRID */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT SIDE */}
+        {/* LEFT */}
 
         <div className="lg:col-span-2 space-y-6">
-          {/* Budget */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <Budget
               budget={budget}
               setBudget={setBudget}
@@ -147,9 +156,7 @@ function Dashboard() {
             />
           </div>
 
-          {/* Filters */}
-
-          <div className="bg-white rounded-xl shadow p-6 space-y-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
             <Filter
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
@@ -160,15 +167,11 @@ function Dashboard() {
             <Sort sortOption={sortOption} setSortOption={setSortOption} />
           </div>
 
-          {/* Expense Form */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <ExpenseForm expenses={expenses} setExpenses={setExpenses} />
           </div>
 
-          {/* Expense List */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <ExpenseList
               expenses={filteredExpenses}
               setExpenses={setExpenses}
@@ -176,24 +179,18 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT */}
 
         <div className="space-y-6">
-          {/* Recent Transactions */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <RecentTransactions expenses={expenses} />
           </div>
 
-          {/* Category Preview */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <CategoryPreview expenses={expenses} />
           </div>
 
-          {/* Reset */}
-
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
             <ResetButton setExpenses={setExpenses} setBudget={setBudget} />
           </div>
         </div>

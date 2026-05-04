@@ -15,16 +15,28 @@ function WeeklyReport({ expenses }) {
   const today = new Date();
 
   const sevenDaysAgo = new Date();
-
   sevenDaysAgo.setDate(today.getDate() - 7);
 
+  // Filter last 7 days safely
   const weeklyExpenses = expenses.filter((exp) => {
+    if (!exp.date) return false;
+
     const expenseDate = new Date(exp.date);
 
     return expenseDate >= sevenDaysAgo && expenseDate <= today;
   });
 
-  const weeklyTotal = weeklyExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+  // Total spent
+  const weeklyTotal = weeklyExpenses.reduce(
+    (sum, exp) => sum + Number(exp.amount),
+    0,
+  );
+
+  // Number of transactions
+  const transactionCount = weeklyExpenses.length;
+
+  // Average per day
+  const averagePerDay = transactionCount > 0 ? Math.round(weeklyTotal / 7) : 0;
 
   return (
     <div className="border border-gray-300 dark:border-gray-700 p-4 m-2 rounded-lg bg-white dark:bg-gray-800 shadow">
@@ -36,6 +48,7 @@ function WeeklyReport({ expenses }) {
         <p className="text-gray-500 dark:text-gray-400">
           Total spent in last 7 days:
         </p>
+
         <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
           ₹ {weeklyTotal}
         </h3>
@@ -45,8 +58,19 @@ function WeeklyReport({ expenses }) {
         <p className="text-gray-500 dark:text-gray-400">
           Number of transactions:
         </p>
+
         <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {weeklyExpenses.length}
+          {transactionCount}
+        </h3>
+      </div>
+
+      <div className="mt-4">
+        <p className="text-gray-500 dark:text-gray-400">
+          Average spending per day:
+        </p>
+
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          ₹ {averagePerDay}
         </h3>
       </div>
     </div>
