@@ -1,22 +1,18 @@
-function Budget({ budget, setBudget, totalSpent }) {
+function Budget({ budget, setBudget, totalSpent, remainingBudget, percentageUsed }) {
   const numericBudget = Number(budget) || 0;
-
-  const remaining = numericBudget - totalSpent;
-
+  const remaining = remainingBudget;
   const warningThreshold = numericBudget * 0.2;
 
-  const percentUsed =
-    numericBudget > 0
-      ? Math.min(Math.round((totalSpent / numericBudget) * 100), 100)
-      : 0;
+  // Clamp percentage between 0 and 100 to prevent overflow
+  const displayPercentage = Math.min(Math.round(percentageUsed), 100);
 
   let barColor = "bg-[var(--success)]";
 
-  if (percentUsed >= 80) {
+  if (displayPercentage >= 80) {
     barColor = "bg-[var(--accent)]";
   }
 
-  if (percentUsed >= 100) {
+  if (displayPercentage >= 100) {
     barColor = "bg-[var(--danger)]";
   }
 
@@ -54,11 +50,11 @@ function Budget({ budget, setBudget, totalSpent }) {
       <div className="w-full bg-[var(--surface-2)] h-2.5 rounded-full overflow-hidden">
         <div
           className={`h-full transition-all duration-300 ${barColor}`}
-          style={{ width: percentUsed + "%" }}
+          style={{ width: Math.min(displayPercentage, 100) + "%" }}
         />
       </div>
 
-      <p className="text-sm text-muted">{percentUsed}% used</p>
+      <p className="text-sm text-muted">{displayPercentage}% used</p>
 
       {remaining < 0 && (
         <p className="font-medium text-[var(--danger)]">Budget exceeded</p>

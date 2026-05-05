@@ -23,17 +23,21 @@ function Dashboard() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("date");
 
+  // SAFELY CALCULATE DERIVED VALUES - NO NaN POSSIBLE
   const totalSpent = expenses.reduce(
     (sum, exp) => sum + Number(exp.amount || 0),
     0,
   );
   const transactionCount = expenses.length;
+  const numericBudget = Number(budget) || 0;
+  const remainingBudget = numericBudget - totalSpent;
+  const percentageUsed = numericBudget > 0 ? (totalSpent / numericBudget) * 100 : 0;
   const totalSpentFormatted = totalSpent.toLocaleString("en-IN");
 
   // Apply search, filter, sort to expenses for the list
   const filteredExpenses = expenses
     .filter((exp) => {
-      const matchesSearch = exp.title
+      const matchesSearch = (exp.title || "")
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
       const matchesCategory =
@@ -42,7 +46,7 @@ function Dashboard() {
     })
     .sort((a, b) => {
       if (sortOption === "amount") return Number(b.amount) - Number(a.amount);
-      if (sortOption === "title") return a.title.localeCompare(b.title);
+      if (sortOption === "title") return (a.title || "").localeCompare(b.title || "");
       // default: date newest first
       return new Date(b.date) - new Date(a.date);
     });
@@ -86,6 +90,8 @@ function Dashboard() {
             budget={budget}
             setBudget={setBudget}
             totalSpent={totalSpent}
+            remainingBudget={remainingBudget}
+            percentageUsed={percentageUsed}
           />
         </div>
       </section>
