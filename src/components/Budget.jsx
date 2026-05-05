@@ -1,11 +1,36 @@
-function Budget({ budget, setBudget, totalSpent, remainingBudget, percentageUsed }) {
+import { useMemo } from "react";
+
+function Budget({ budget, setBudget, expenses = [] }) {
+  // Safely convert budget to number
   const numericBudget = Number(budget) || 0;
-  const remaining = remainingBudget;
-  const warningThreshold = numericBudget * 0.2;
+
+  // Dynamically calculate totalSpent from expenses array
+  const totalSpent = useMemo(() => {
+    return expenses.reduce((sum, exp) => {
+      const amount = Number(exp.amount || 0);
+      return sum + (isNaN(amount) ? 0 : amount);
+    }, 0);
+  }, [expenses]);
+
+  // Dynamically calculate remaining budget
+  const remainingBudget = useMemo(() => {
+    return numericBudget - totalSpent;
+  }, [numericBudget, totalSpent]);
+
+  // Dynamically calculate percentage used
+  const percentageUsed = useMemo(() => {
+    if (numericBudget <= 0) return 0;
+    const percentage = (totalSpent / numericBudget) * 100;
+    return isNaN(percentage) ? 0 : percentage;
+  }, [numericBudget, totalSpent]);
 
   // Clamp percentage between 0 and 100 to prevent overflow
   const displayPercentage = Math.min(Math.round(percentageUsed), 100);
 
+  // Calculate warning threshold
+  const warningThreshold = numericBudget * 0.2;
+
+  // Determine progress bar color based on percentage
   let barColor = "bg-[var(--success)]";
 
   if (displayPercentage >= 80) {
@@ -43,24 +68,24 @@ function Budget({ budget, setBudget, totalSpent, remainingBudget, percentageUsed
       />
 
       <div className="flex flex-col gap-1 text-sm text-muted">
-        <span>Total Spent: ₹ {totalSpent}</span>
-        <span>Remaining Budget: ₹ {remaining}</span>
+        <span>Total Spent: ₹ {Math.round(totalSpent)}</span>
+        <span>Remaining Budget: ₹ {Math.round(remainingBudget)}</span>
       </div>
 
       <div className="w-full bg-[var(--surface-2)] h-2.5 rounded-full overflow-hidden">
         <div
           className={`h-full transition-all duration-300 ${barColor}`}
-          style={{ width: Math.min(displayPercentage, 100) + "%" }}
+          style={{ width: `${displayPercentage}%` }}
         />
       </div>
 
       <p className="text-sm text-muted">{displayPercentage}% used</p>
 
-      {remaining < 0 && (
+      {remainingBudget < 0 && (
         <p className="font-medium text-[var(--danger)]">Budget exceeded</p>
       )}
 
-      {remaining > 0 && remaining <= warningThreshold && (
+      {remainingBudget > 0 && remainingBudget <= warningThreshold && (
         <p className="font-medium text-[var(--accent)]">
           Budget is almost finished
         </p>

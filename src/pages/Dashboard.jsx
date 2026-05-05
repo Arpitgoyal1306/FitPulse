@@ -89,9 +89,7 @@ function Dashboard() {
           <Budget
             budget={budget}
             setBudget={setBudget}
-            totalSpent={totalSpent}
-            remainingBudget={remainingBudget}
-            percentageUsed={percentageUsed}
+            expenses={expenses}
           />
         </div>
       </section>
