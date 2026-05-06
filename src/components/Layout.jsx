@@ -14,17 +14,17 @@ function Layout() {
       {/* Sidebar */}
       <aside className="sidebar w-full md:fixed md:inset-y-0 md:left-0 md:w-72 border-b md:border-b-0 md:border-r z-20">
         <div className="px-5 py-6 border-b border-[var(--border)]">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/Logo.png" 
-              alt="HisabKitab Logo" 
+          <Link to="/" className="flex items-center gap-3 no-underline cursor-pointer" aria-label="Go to Home">
+            <img
+              src="/Logo.png"
+              alt="HisabKitab Logo"
               className="h-10 w-10 rounded-xl object-cover"
             />
             <div>
               <h1 className="text-lg font-semibold">HisabKitab</h1>
               <p className="text-sm text-muted">Smart Expense Tracker</p>
             </div>
-          </div>
+          </Link>
         </div>
 
         <nav className="flex md:flex-col gap-2 px-4 py-4 overflow-x-auto md:overflow-visible">
