@@ -53,6 +53,12 @@ function Dashboard() {
       return new Date(b.date) - new Date(a.date);
     });
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("All");
+    setSortOption("date");
+  };
+
   return (
     <div className="space-y-8">
       <section className="card-hero p-6 sm:p-8">
@@ -110,7 +116,21 @@ function Dashboard() {
               Narrow down the list before you edit or review.
             </p>
           </div>
-          <span className="badge">{filteredExpenses.length} items</span>
+          <div className="flex items-center gap-3">
+            <span className="badge">{filteredExpenses.length} items</span>
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="btn btn-ghost btn-sm"
+              aria-label="Clear search and filters"
+              disabled={
+                searchTerm === "" && selectedCategory === "All" && sortOption === "date"
+              }
+              title="Clear filters"
+            >
+              Clear
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
