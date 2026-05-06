@@ -1,32 +1,25 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const ExpenseContext = createContext();
 
 export function ExpenseProvider({ children }) {
-  const [expenses, setExpenses] = useState([]);
-  const [budget, setBudget] = useState("");
-
-  // LOAD from localStorage
-
-  useEffect(() => {
+  const [expenses, setExpenses] = useState(() => {
     const savedExpenses = localStorage.getItem("expenses");
-    const savedBudget = localStorage.getItem("budget");
 
-    if (savedExpenses) {
-      try {
-        const parsedExpenses = JSON.parse(savedExpenses);
-        if (Array.isArray(parsedExpenses)) {
-          setExpenses(parsedExpenses);
-        }
-      } catch {
-        setExpenses([]);
-      }
+    if (!savedExpenses) {
+      return [];
     }
 
-    if (savedBudget !== null) {
-      setBudget(savedBudget);
+    try {
+      const parsedExpenses = JSON.parse(savedExpenses);
+      return Array.isArray(parsedExpenses) ? parsedExpenses : [];
+    } catch {
+      return [];
     }
-  }, []);
+  });
+  const [budget, setBudget] = useState(
+    () => localStorage.getItem("budget") ?? "",
+  );
 
   // SAVE to localStorage
 
