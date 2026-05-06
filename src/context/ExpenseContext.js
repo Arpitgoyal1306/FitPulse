@@ -17,9 +17,7 @@ export function ExpenseProvider({ children }) {
       return [];
     }
   });
-  const [budget, setBudget] = useState(
-    () => localStorage.getItem("budget") ?? "",
-  );
+  const [budget, setBudget] = useState(() => localStorage.getItem("budget") ?? "");
 
   // SAVE to localStorage
 

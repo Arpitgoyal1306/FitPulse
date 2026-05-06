@@ -51,7 +51,7 @@ function About() {
         </div>
 
         <div className="card p-6">
-          <h2 className="text-xl font-semibold mb-3 font-bold">Technologies Used</h2>
+          <h2 className="text-xl font-semibold mb-3">Technologies Used</h2>
           <ul className="space-y-2 text-muted">
             <li>React</li>
             <li>JavaScript (ES6+)</li>

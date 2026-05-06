@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ExpenseForm({ expenses, setExpenses }) {
+function ExpenseForm({ setExpenses }) {
   const [title, setTitle] = useState("");
 
   const [amount, setAmount] = useState("");

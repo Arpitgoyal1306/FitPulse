@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function ExpenseItem({ exp, expenses, setExpenses }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -7,17 +7,17 @@ function ExpenseItem({ exp, expenses, setExpenses }) {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
 
-  useEffect(() => {
-    if (!exp) return;
+  if (!exp) {
+    return null;
+  }
+
+  const handleEdit = () => {
     setTitle(exp.title ?? "");
     setAmount(exp.amount ?? "");
     setCategory(exp.category ?? "");
     setDate(exp.date ?? "");
-  }, [exp]);
-
-  if (!exp) {
-    return null;
-  }
+    setIsEditing(true);
+  };
 
   const handleDelete = () => {
     const next = expenses.filter((item) => item.id !== exp.id);
@@ -146,7 +146,7 @@ function ExpenseItem({ exp, expenses, setExpenses }) {
             </span>
             <button
               type="button"
-              onClick={() => setIsEditing(true)}
+              onClick={handleEdit}
               className="btn btn-secondary btn-sm"
             >
               Edit
