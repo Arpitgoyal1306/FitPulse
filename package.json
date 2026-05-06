@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "cookie": "file:cookie-1.1.1.tgz",
-    "espree": "file:espree-11.2.0.tgz",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.2",
@@ -23,7 +21,7 @@
     "@tailwindcss/postcss": "^4.2.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.5.0",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -31,6 +29,6 @@
     "globals": "^17.5.0",
     "postcss": "^8.5.13",
     "tailwindcss": "^4.2.4",
-    "vite": "file:vite-8.0.10.tgz"
+    "vite": "^7.1.7"
   }
 }
