@@ -20,6 +20,10 @@ function ExpenseItem({ exp, expenses, setExpenses }) {
   };
 
   const handleDelete = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
+
+    if (!confirmDelete) return;
+
     const next = expenses.filter((item) => item.id !== exp.id);
     setExpenses(next);
   };
@@ -155,6 +159,7 @@ function ExpenseItem({ exp, expenses, setExpenses }) {
               type="button"
               onClick={handleDelete}
               className="btn btn-danger btn-sm"
+              aria-label={`Delete ${exp.title}`}
             >
               Delete
             </button>
